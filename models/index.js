@@ -1,5 +1,10 @@
+const Comment = require('./Comment');
+const Post = require('./Post');
+const User = require('./User');
 
-//What do we need to require for this document?
+User.hasMany(Post, {
+  fore
+})
 
 module.exports = {
   User,

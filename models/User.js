@@ -1,18 +1,39 @@
-// What do we need to require here?
+const {Model, DataTypes} = require('sequelize');
+const sequelize = require('../config/config');
+const bcrypt = require('bcrypt');
 
-// create our User model
 class User extends Model {
   // set up method to run on instance data (per user) to check password
+  checkPassword(login){
+    return bcrypt.compareSync(login, this.password);
+  }
 }
 
 User.init(
   {
-  //  What needs to go in the User expression here?
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      //validation
+    },
   },
   {
     hooks: {
-      // How do we set up the hook functionality?
-    
+      async beforeCreate(newUser){
+        newUser.password = await bcrypt.hash(newUser.password, 10);
+        return newUser;
+      }
     },
     sequelize,
     timestamps: false,
