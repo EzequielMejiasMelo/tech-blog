@@ -1,9 +1,15 @@
 const router = require('express').Router();
-
-//Require the correct files from the models and authorizations
+const {Comment} = require('../../models');
+const withAuth = require('../../utils/auth');
 
 router.post('/', withAuth, async (req, res) => {
-  // Complete the asynchronous function for router.post
+  try {
+    const comment = await Comment.create({...req.body, userId: req.session.userId});
+
+    res.status(200).json(comment);
+  } catch (error) {
+    res.status(500).json(error)
+  }
 });
 
 module.exports = router;
