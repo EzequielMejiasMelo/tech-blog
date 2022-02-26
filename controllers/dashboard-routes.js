@@ -15,10 +15,6 @@ router.get('/', withAuth, async (req, res) => {
   }
 });
 
-router.get('/new', withAuth, (req, res) => {
-  // Create the correct get route
-});
-
 router.get('/edit/:id', withAuth, async (req, res) => {
   // Create the correct get route functionality using an asychronous function
   try {
